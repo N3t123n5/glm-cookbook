@@ -1,4 +1,3 @@
-import time
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -9,13 +8,13 @@ from api import generate_role_appearance, get_chatglm_response_via_sdk
 def characterglm_example(bot_info_text, user_info_text):
     bot_info = ""
     user_info = ""
+    # 生成角色1人设
     for chunk in generate_role_appearance(bot_info_text):
         bot_info += chunk
-
+    # 生成角色2人设
     for chunk in generate_role_appearance(user_info_text):
         user_info += chunk
-    # print(bot_info)
-    # print(user_info)
+
     character_meta = {
         "user_info": "须菩提祖师的徒弟。" + user_info,
         "bot_info": bot_info,
@@ -46,6 +45,7 @@ def characterglm_example(bot_info_text, user_info_text):
     """.rstrip()
     print(instruction)
     message_list = ""
+    # 根据人设生成聊天对话
     for chunk in get_chatglm_response_via_sdk(
         messages=[
             {
@@ -57,6 +57,7 @@ def characterglm_example(bot_info_text, user_info_text):
         message_list += chunk
 
     print(message_list)
+    # 保存到文件
     with open('message_list', 'w', encoding='utf-8') as file:
         file.write(message_list)
 

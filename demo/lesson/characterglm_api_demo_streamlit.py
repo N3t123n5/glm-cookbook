@@ -88,7 +88,7 @@ def verify_meta() -> bool:
         return True
 
 
-def draw_new_image():
+def draw_new_image(image_option):
     """生成一张图片，并展示在页面上"""
     if not verify_meta():
         return
@@ -110,7 +110,7 @@ def draw_new_image():
         return
     
     # TODO: 加上风格选项
-    image_prompt = '二次元风格。' + image_prompt.strip()
+    image_prompt = image_option + '风格。' + image_prompt.strip()
     
     print(f"image_prompt = {image_prompt}")
     n_retry = 3
@@ -172,6 +172,10 @@ with st.container():
     
     with button_key_to_col["gen_picture"]:
         gen_picture = st.button(button_labels["gen_picture"], key="gen_picture")
+        # 定义下拉选项的标签和值
+        options = ['二次元', '哥特', '简笔画']
+        # 创建下拉选项，并将选定的值赋给变量selected_option
+        selected_option = st.selectbox('请选择一个图片生成风格:', options, index=0)
 
     if debug:
         with button_key_to_col["show_api_key"]:
@@ -206,7 +210,7 @@ for msg in st.session_state["history"]:
 
 
 if gen_picture:
-    draw_new_image()
+    draw_new_image(selected_option)
 
 
 with st.chat_message(name="user", avatar="user"):
